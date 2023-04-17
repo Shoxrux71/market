@@ -42,6 +42,7 @@ class UserProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 2, left: 8, right: 8),
@@ -69,9 +70,20 @@ class UserProductItem extends StatelessWidget {
               IconButton(
                 splashRadius: 20,
                 onPressed: () {
-                  _notifyUserDelete(context, () {
-                    Provider.of<Products>(context, listen: false)
-                        .deleteProduct(product.id);
+                  _notifyUserDelete(context, () async {
+                    try {
+                      await Provider.of<Products>(context, listen: false)
+                          .deleteProduct(product.id);
+                    } catch (e) {
+                      scaffoldMessenger.showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            e.toString(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }
                   });
                 },
                 icon: Icon(

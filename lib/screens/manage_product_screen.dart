@@ -11,6 +11,10 @@ class ManageProductsScreen extends StatelessWidget {
   const ManageProductsScreen({super.key});
 
   static const routeNamwe = '/manage-product';
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context).getProductsFromFireBase();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<Products>(context);
@@ -26,15 +30,18 @@ class ManageProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: ListView.builder(
-          itemCount: productProvider.list.length,
-          itemBuilder: (ctx, i) {
-            final product = productProvider.list[i];
-            return ChangeNotifierProvider.value(
-              value: product,
-              child: UserProductItem(),
-            );
-          }),
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: ListView.builder(
+            itemCount: productProvider.list.length,
+            itemBuilder: (ctx, i) {
+              final product = productProvider.list[i];
+              return ChangeNotifierProvider.value(
+                value: product,
+                child: UserProductItem(),
+              );
+            }),
+      ),
     );
   }
 }

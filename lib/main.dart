@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// Salom
 // Provider.of orniga consumerdan foydalanish qismiga keldim
 // 05.03.23-Savatcha sahifasini ko'rsatish va umumiy miqdorni ko'rsatish
 // 19.03.2023 Mahsulot haqida batafsil sahifani yaratish

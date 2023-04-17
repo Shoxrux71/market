@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:market/providers/cart.dart';
 import 'package:market/providers/orders.dart';
+import './orders_screen.dart';
+import 'package:market/screens/orders_screen.dart';
 import 'package:provider/provider.dart';
 import '../widgets/cart_list_item.dart';
 import '../widgets/app_drawer.dart';
@@ -45,17 +47,7 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Provider.of<Orders>(context, listen: false).addToOrders(
-                            cart.items.values.toList(), cart.totalPrice);
-                        cart.clearCart();
-                      },
-                      child: const Text(
-                        'Buy',
-                        style: TextStyle(fontSize: 22),
-                      ),
-                    ),
+                    orderButton(cart: cart),
                   ],
                 ),
               ),
@@ -81,6 +73,48 @@ class CartScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class orderButton extends StatefulWidget {
+  const orderButton({
+    super.key,
+    required this.cart,
+  });
+
+  final Cart cart;
+
+  @override
+  State<orderButton> createState() => _orderButtonState();
+}
+
+class _orderButtonState extends State<orderButton> {
+  var _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: (widget.cart.items.isEmpty || _isLoading)
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await Provider.of<Orders>(context, listen: false).addToOrders(
+                  widget.cart.items.values.toList(), widget.cart.totalPrice);
+              setState(() {
+                _isLoading = false;
+              });
+              widget.cart.clearCart();
+              Navigator.of(context)
+                  .pushReplacementNamed(OrdersScreen.routeName);
+            },
+      child: _isLoading
+          ? const CircularProgressIndicator()
+          : const Text(
+              'Buy',
+              style: TextStyle(fontSize: 22),
+            ),
     );
   }
 }
