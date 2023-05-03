@@ -70,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
             _authData['password']!,
           );
         }
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       } on HttpException catch (error) {
         var errorMessage = 'Error!';
         if (error.message.contains('EMAIL_EXISTS')) {
