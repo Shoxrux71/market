@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market/moduls/cart_item.dart';
+import 'package:market/providers/auth.dart';
 import 'package:market/providers/cart.dart';
 import 'package:market/providers/orders.dart';
 import 'package:market/providers/products.dart';
@@ -11,6 +12,7 @@ import './style/my_shop_style.dart';
 import 'package:provider/provider.dart';
 import './screens/cart_screen.dart';
 import './screens/edit_product_screen.dart';
+import './screens/auth_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<Auth>(
+          create: (ctx) => Auth(),
+        ),
         ChangeNotifierProvider<Products>(
           create: (ctx) {
             return Products();
@@ -43,8 +48,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: theme,
-        initialRoute: HomeScreen.routeName,
+
+        home: AuthScreen(),
+        // initialRoute: HomeScreen.routeName,
         routes: {
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
           ProductDetailsScreen.routeNamed: (ctx) => ProductDetailsScreen(),
@@ -57,7 +63,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// Salom
+// Salom bugun githubga ulandim Hudoga Shukur
 // Provider.of orniga consumerdan foydalanish qismiga keldim
 // 05.03.23-Savatcha sahifasini ko'rsatish va umumiy miqdorni ko'rsatish
 // 19.03.2023 Mahsulot haqida batafsil sahifani yaratish

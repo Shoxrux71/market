@@ -14,7 +14,7 @@ enum FilterOption { All, Like }
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
-  static const routeName = '/';
+  static const routeName = '/home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
