@@ -45,8 +45,15 @@ class Auth with ChangeNotifier {
         throw HttpException(data['error']['message']);
       }
       _token = data['idToken'];
-      _expireDate =
-          DateTime.now().add(Duration(seconds: int.parse(data['expiresIn'])));
+      _expireDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            data['expiresIn'],
+          ),
+        ),
+      );
+      _userId = data['localId'];
+      notifyListeners();
     } catch (error) {
       rethrow;
     }

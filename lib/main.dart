@@ -25,42 +25,46 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<Auth>(
-          create: (ctx) => Auth(),
-        ),
-        ChangeNotifierProvider<Products>(
-          create: (ctx) {
-            return Products();
+        providers: [
+          ChangeNotifierProvider<Auth>(
+            create: (ctx) => Auth(),
+          ),
+          ChangeNotifierProvider<Products>(
+            create: (ctx) {
+              return Products();
+            },
+          ),
+          ChangeNotifierProvider<Cart>(
+            create: (ctx) {
+              return Cart();
+            },
+          ),
+          ChangeNotifierProvider<Orders>(
+            create: (ctx) {
+              return Orders();
+            },
+          ),
+        ],
+        child: Consumer<Auth>(
+          builder: (ctx, authDat, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              home: authDat.isAuth ? HomeScreen() : AuthScreen(),
+              // initialRoute: HomeScreen.routeName,
+              routes: {
+                OrdersScreen.routeName: (ctx) => OrdersScreen(),
+                ProductDetailsScreen.routeNamed: (ctx) =>
+                    ProductDetailsScreen(),
+                CartScreen.routeName: (ctx) => CartScreen(),
+                HomeScreen.routeName: (ctx) => HomeScreen(),
+                ManageProductsScreen.routeNamwe: (ctx) =>
+                    ManageProductsScreen(),
+                EditProductScreen.routeName: (ctx) => EditProductScreen(),
+              },
+            );
           },
-        ),
-        ChangeNotifierProvider<Cart>(
-          create: (ctx) {
-            return Cart();
-          },
-        ),
-        ChangeNotifierProvider<Orders>(
-          create: (ctx) {
-            return Orders();
-          },
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-
-        home: AuthScreen(),
-        // initialRoute: HomeScreen.routeName,
-        routes: {
-          OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          ProductDetailsScreen.routeNamed: (ctx) => ProductDetailsScreen(),
-          CartScreen.routeName: (ctx) => CartScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          ManageProductsScreen.routeNamwe: (ctx) => ManageProductsScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen(),
-        },
-      ),
-    );
+        ));
   }
 }
 // Salom bugun githubga ulandim Hudoga Shukur
